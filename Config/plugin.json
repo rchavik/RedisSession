@@ -1,0 +1,11 @@
+{
+	"name": "RedisSession",
+	"description": "Redis Session Store for CakePHP/Croogo",
+
+	"author": "Rachman Chavik",
+	"authorEmail": "rchavik@gmail.com",
+
+	"dependencies": {
+		"plugins": []
+	}
+}
