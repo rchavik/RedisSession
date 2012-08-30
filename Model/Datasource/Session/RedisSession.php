@@ -71,6 +71,9 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 
 	protected function _storeUserMap($id, $data) {
 		$decoded = wddx_deserialize($data);
+		if (!is_array($decoded)) {
+			return false;
+		}
 		$uid = Hash::get($decoded, AuthComponent::$sessionKey . '.id');
 		if (empty($uid)) {
 			return;
@@ -82,6 +85,9 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 	protected function _removeUserMap($id) {
 		$data = $this->_store->get($id);
 		$decoded = wddx_deserialize($data);
+		if (!is_array($decoded)) {
+			return false;
+		}
 		$uid = Hash::get($decoded, AuthComponent::$sessionKey . '.id');
 		if (empty($uid)) {
 			return;
