@@ -2,17 +2,20 @@
 
 $userMap = true;
 
-Configure::write('Session', array(
-	'defaults' => 'php',
-	'handler' => array(
-		'engine' => 'RedisSession.RedisSession',
-		'userMap' => $userMap,
-		//'userMapPrefix' => 'USERS',
-		//'userMapField' => 'id',
-		//'prefix' => 'PHPREDIS_SESSION',
-		//'host' => 'localhost',
-		//'port' => '6379',
-	),
+Configure::write('Session', array_merge(
+	Configure::read('Session'),
+	array(
+		'defaults' => 'php',
+		'handler' => array(
+			'engine' => 'RedisSession.RedisSession',
+			'userMap' => $userMap,
+			//'userMapPrefix' => 'USERS',
+			//'userMapField' => 'id',
+			//'prefix' => 'PHPREDIS_SESSION',
+			//'host' => 'localhost',
+			//'port' => '6379',
+		),
+	)
 ));
 
 if ($userMap) {
