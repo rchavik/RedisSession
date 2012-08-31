@@ -1,6 +1,7 @@
 <?php
 
 App::uses('CakeSessionHandlerInterface', 'Model/Datasource/Session');
+App::uses('AuthComponent', 'Controller/Component');
 
 class RedisSession extends Object implements CakeSessionHandlerInterface {
 
