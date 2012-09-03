@@ -20,6 +20,10 @@ Configure::write('Session', array_merge(
 
 if ($userMap) {
 	if (extension_loaded('wddx')) {
+		$session_id = session_id();
+		if (!empty($session_id)) {
+			session_destroy();
+		}
 		ini_set('session.serialize_handler', 'wddx');
 	} else {
 		CakeLog::critical('wddx not available. user map not enabled');
