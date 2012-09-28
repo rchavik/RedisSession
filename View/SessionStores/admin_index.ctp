@@ -5,13 +5,14 @@
 <?php
 
 
-$header = array('ID', 'Name', 'Email', 'Action');
+$header = array('ID', 'Name', 'Email', 'TTL', 'Action');
 
 foreach ($userSessions as $userSession) {
 	$rows[] = array(
 		$userSession['Auth']['User']['id'],
 		$userSession['Auth']['User']['name'],
 		$userSession['Auth']['User']['email'],
+		$userSession['ttl'],
 		$this->Form->postLink(__('Disconnect'), array(
 			'action' => 'disconnect',
 			$userSession['Auth']['User']['id']
