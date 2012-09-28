@@ -10,7 +10,8 @@ class SessionStoresController extends AppController {
 			$data = $this->SessionStore->sessionData($userMap);
 			$userSessions[$userMap] = $data;
 		}
-		$this->set(compact('userMaps', 'userSessions'));
+		$totalSessions = $this->SessionStore->total();
+		$this->set(compact('totalSessions', 'userMaps', 'userSessions'));
 	}
 
 	public function admin_disconnect($id) {

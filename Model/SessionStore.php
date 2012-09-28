@@ -38,4 +38,8 @@ class SessionStore extends AppModel {
 		$this->_store->delete($map);
 	}
 
+	public function total() {
+		return count($this->_store->keys('PHP*'));
+	}
+
 }

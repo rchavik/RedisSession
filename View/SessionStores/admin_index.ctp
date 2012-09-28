@@ -1,4 +1,11 @@
+<?php echo $this->Html->tag('h2', __('Sessions')); ?>
+<p><?php echo __('Total Sessions: %d', $totalSessions); ?></p>
+<p><?php echo __('Total Users: %d', count($userSessions)); ?></p>
+<br />
 <?php
+
+
+$header = array('ID', 'Name', 'Email', 'Action');
 
 foreach ($userSessions as $userSession) {
 	$rows[] = array(
@@ -12,5 +19,6 @@ foreach ($userSessions as $userSession) {
 	);
 }
 
-$cells = $this->Html->tableCells($rows);
+$cells  = $this->Html->tableHeaders($header);
+$cells .= $this->Html->tableCells($rows);
 echo $this->Html->tag('table', $cells);
