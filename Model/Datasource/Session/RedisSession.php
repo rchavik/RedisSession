@@ -85,6 +85,9 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 
 	protected function _removeUserMap($id) {
 		$data = $this->_store->get($id);
+		if (!$data) {
+			return;
+		}
 		$decoded = wddx_deserialize($data);
 		if (!is_array($decoded)) {
 			return false;

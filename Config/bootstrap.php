@@ -1,8 +1,7 @@
 <?php
-
 $userMap = true;
 
-Configure::write('Session', array_merge(
+Configure::write('Session', Hash::merge(
 	Configure::read('Session'),
 	array(
 		'defaults' => 'php',
