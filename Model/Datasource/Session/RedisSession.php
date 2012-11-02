@@ -15,6 +15,8 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 
 	protected $_port = 6379;
 
+	protected $_password = false;
+
 	protected $_userMapPrefix = 'USERS';
 
 	protected $_userMapField = 'id';
@@ -31,6 +33,9 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 		}
 		if (!empty($config['handler']['port'])) {
 			$this->_port = $config['handler']['port'];
+		}
+		if (!empty($config['handler']['password'])) {
+			$this->_password = $config['handler']['password'];
 		}
 		if (!empty($config['handler']['prefix'])) {
 			$this->_prefix = $config['handler']['prefix'];
@@ -49,6 +54,9 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 	public function open() {
 		$this->_configure();
 		$connected = $this->_store->connect($this->_host, $this->_port);
+		if ($connected && $this->_password) {
+			$this->_store->auto($this->_password);
+		}
 		return $connected;
 	}
 
