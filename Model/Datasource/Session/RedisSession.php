@@ -55,7 +55,7 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 		$this->_configure();
 		$connected = $this->_store->connect($this->_host, $this->_port);
 		if ($connected && $this->_password) {
-			$this->_store->auto($this->_password);
+			$this->_store->auth($this->_password);
 		}
 		return $connected;
 	}
