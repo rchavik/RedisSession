@@ -19,6 +19,9 @@ class SessionStore extends AppModel {
 			$port = $handler['port'];
 		}
 		$this->_store->connect($host, $port);
+		if (!empty($handler['password'])) {
+			$this->_store->auth($handler['password']);
+		}
 	}
 
 	public function userMap() {
