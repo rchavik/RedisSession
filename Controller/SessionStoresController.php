@@ -6,9 +6,12 @@ class SessionStoresController extends AppController {
 
 	public function admin_index() {
 		$userMaps = $this->SessionStore->userMap();
-		foreach ($userMaps as $userMap) {
-			$data = $this->SessionStore->sessionData($userMap);
-			$userSessions[$userMap] = $data;
+		$userSessions = array();
+		if ($userMaps) {
+			foreach ($userMaps as $userMap) {
+				$data = $this->SessionStore->sessionData($userMap);
+				$userSessions[$userMap] = $data;
+			}
 		}
 		$totalSessions = $this->SessionStore->total();
 		$this->set(compact('totalSessions', 'userMaps', 'userSessions'));

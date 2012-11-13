@@ -7,6 +7,7 @@
 
 $header = array('ID', 'Name', 'Email', 'TTL', 'Action');
 
+$rows = array();
 foreach ($userSessions as $userSession) {
 	$rows[] = array(
 		$userSession['Auth']['User']['id'],
