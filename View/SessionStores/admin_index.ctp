@@ -17,10 +17,12 @@ foreach ($userSessions as $userSession) {
 		$this->Form->postLink(__('Disconnect'), array(
 			'action' => 'disconnect',
 			$userSession['Auth']['User']['id']
-		), null, 'Are you sure?'),
+		), array(
+			'escape' => true,
+		), 'Are you sure?'),
 	);
 }
 
 $cells  = $this->Html->tableHeaders($header);
 $cells .= $this->Html->tableCells($rows);
-echo $this->Html->tag('table', $cells);
+echo $this->Html->tag('table', $cells, array('class' => 'table'));
