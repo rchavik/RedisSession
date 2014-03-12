@@ -9,6 +9,7 @@ $header = array('ID', 'Name', 'Email', 'TTL', 'Action');
 
 $rows = array();
 foreach ($userSessions as $userSession) {
+	$actions = array();
 	$disconnectLink = $this->Form->postLink(__('Disconnect'), array(
 			'action' => 'disconnect',
 			$userSession['Auth']['User']['id']
