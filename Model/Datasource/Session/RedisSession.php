@@ -7,7 +7,7 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 
 	protected $_prefix = 'PHPREDIS_SESSION';
 
-	protected $_timeout = 600;
+	protected $_timeout = 10;
 
 	protected $_store = null;
 
@@ -79,7 +79,7 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 
 	public function write($id, $data) {
 		$id = sprintf('%s:%s', $this->_prefix, $id);
-		$stored = $this->_store->setex($id, $this->_timeout, $data);
+		$stored = $this->_store->setex($id, $this->_timeout * 60, $data);
 		if ($this->_userMap) {
 			$this->_storeUserMap($id, $data);
 		}
@@ -96,7 +96,7 @@ class RedisSession extends Object implements CakeSessionHandlerInterface {
 			return;
 		}
 		$usermap = $this->_userMapPrefix . ':' . $uid;
-		return $this->_store->setex($usermap, $this->_timeout, $id);
+		return $this->_store->setex($usermap, $this->_timeout * 60, $id);
 	}
 
 	protected function _removeUserMap($id) {
