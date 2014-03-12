@@ -13,6 +13,7 @@ Configure::write('Session', Hash::merge(
 			//'prefix' => 'PHPREDIS_SESSION',
 			//'host' => 'localhost',
 			//'port' => '6379',
+			//'db' => 0,
 		),
 	)
 ));
