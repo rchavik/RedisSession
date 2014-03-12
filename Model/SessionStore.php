@@ -22,6 +22,9 @@ class SessionStore extends AppModel {
 		if (!empty($handler['password'])) {
 			$this->_store->auth($handler['password']);
 		}
+		if (!empty($handler['db'])) {
+			$this->_store->select($handler['db']);
+		}
 	}
 
 	public function userMap() {
