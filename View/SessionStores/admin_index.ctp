@@ -1,8 +1,22 @@
-<?php echo $this->Html->tag('h2', __('Sessions')); ?>
+<?php
+
+$title = __d('redis_session', 'Sessions');
+$this->set('title_for_layout', $title);
+$this->set('modelClass', $title);
+$this->set('showActions', false);
+
+$this->extend('/Common/admin_index');
+
+$this->Html
+	->addCrumb('', '/admin', array('icon' => $this->Theme->getIcon('home')))
+	->addCrumb($title, '/' . $this->request->url);
+
+$this->append('table-heading');
+?>
 <p><?php echo __('Total Sessions: %d', $totalSessions); ?></p>
 <p><?php echo __('Total Users: %d', count($userSessions)); ?></p>
-<br />
 <?php
+$this->end();
 
 
 $header = array('ID', 'Name', 'Email', 'TTL', 'Action');
@@ -32,6 +46,5 @@ foreach ($userSessions as $userSession) {
 	);
 }
 
-$cells  = $this->Html->tableHeaders($header);
-$cells .= $this->Html->tableCells($rows);
-echo $this->Html->tag('table', $cells, array('class' => 'table'));
+$this->append('table-heading', $this->Html->tableHeaders($header));
+$this->append('table-body', $this->Html->tableCells($rows));
