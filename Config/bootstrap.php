@@ -1,24 +1,19 @@
 <?php
-$userMap = true;
+
+$handlerConfig = Hash::merge(array(
+	'engine' => 'RedisSession.RedisSession',
+	'userMap' => true,
+), Configure::consume('RedisSession.handler'));
 
 Configure::write('Session', Hash::merge(
 	Configure::read('Session'),
 	array(
 		'defaults' => 'php',
-		'handler' => array(
-			'engine' => 'RedisSession.RedisSession',
-			'userMap' => $userMap,
-			//'userMapPrefix' => 'USERS',
-			//'userMapField' => 'id',
-			//'prefix' => 'PHPREDIS_SESSION',
-			//'host' => 'localhost',
-			//'port' => '6379',
-			//'db' => 0,
-		),
+		'handler' => $handlerConfig,
 	)
 ));
 
-if ($userMap) {
+if (isset($handlerConfig['userMap'])) {
 	if (extension_loaded('wddx')) {
 		ini_set('session.serialize_handler', 'wddx');
 	} else {
