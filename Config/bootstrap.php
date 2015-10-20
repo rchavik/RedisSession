@@ -20,3 +20,15 @@ if (isset($handlerConfig['userMap'])) {
 		CakeLog::critical('wddx not available. user map not enabled');
 	}
 }
+
+if (class_exists('CroogoNav')) {
+	CroogoNav::add('extensions.children.RedisSession', array(
+		'title' => __d('qc', 'Session Store'),
+		'url' => array(
+			'plugin' => 'redis_session',
+			'controller' => 'session_stores',
+			'action' => 'index'
+		),
+		'children' => array(),
+	));
+}
