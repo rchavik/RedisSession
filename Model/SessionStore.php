@@ -27,7 +27,11 @@ class SessionStore extends AppModel {
 		}
 	}
 
-	public function userMap() {
+	public function userMap($userId = null) {
+		if ($userId) {
+			$mapKey = 'USERS:' . intval($userId);
+			return $this->_store->get($mapKey);
+		}
 		return $this->_store->keys('USERS:*');
 	}
 
