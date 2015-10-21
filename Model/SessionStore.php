@@ -36,10 +36,9 @@ class SessionStore extends AppModel {
 	}
 
 	public function sessionData($key) {
-		$id = $this->_store->get($key);
-		$data = $this->_store->get($id);
+		$data = $this->_store->get($key);
 		$data = wddx_deserialize($data);
-		$data['ttl'] = $this->_store->ttl($id);
+		$data['ttl'] = $this->_store->ttl($key);
 		return $data;
 	}
 
