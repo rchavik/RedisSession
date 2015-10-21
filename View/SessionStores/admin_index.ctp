@@ -12,39 +12,56 @@ $this->Html
 	->addCrumb($title, '/' . $this->request->url);
 
 $this->append('table-heading');
-?>
-<p><?php echo __('Total Sessions: %d', $totalSessions); ?></p>
-<p><?php echo __('Total Users: %d', count($userSessions)); ?></p>
-<?php
 $this->end();
-
 
 $header = array('ID', 'Name', 'Email', 'TTL', 'Action');
 
 $rows = array();
-foreach ($userSessions as $userSession) {
+foreach ($userSessions as $sessionKey => $userSession) {
 	$actions = array();
-	$disconnectLink = $this->Form->postLink(__('Disconnect'), array(
-			'action' => 'disconnect',
-			$userSession['Auth']['User']['id']
-		), array(
-			'escape' => true,
-		), 'Are you sure?'
-	);
+	list(, $sessionId) = explode(':', $sessionKey);
 
-	if ($userSession['Auth']['User']['id'] == $this->Session->read('Auth.User.id')) {
-		$disconnectLink = null;
+	$disconnectLink = $this->Form->postLink(__('Disconnect'), array(
+		'action' => 'disconnect',
+		$sessionId,
+	), array(
+		'escape' => true,
+	), 'Are you sure?');
+
+	if (isset($userSession['Auth']['User'])) {
+
+		if ($userSession['Auth']['User']['id'] == $this->Session->read('Auth.User.id') &&
+			($sessionId == session_id())
+		) {
+			$disconnectLink = null;
+		}
+
+		$actions[] = $disconnectLink;
+
+		$name = $userSession['Auth']['User']['name'];
+		$email = $userSession['Auth']['User']['email'];
+		$ttl = $userSession['ttl'];
+		$action = implode(' ', $actions);
+	} else {
+		$action = $disconnectLink;
+		$name = $email = $ttl = null;
 	}
 
-	$actions[] = $disconnectLink;
 	$rows[] = array(
-		$userSession['Auth']['User']['id'],
-		$userSession['Auth']['User']['name'],
-		$userSession['Auth']['User']['email'],
-		$userSession['ttl'],
-		implode(' ', $actions),
+		$sessionId,
+		$name,
+		$email,
+		$ttl,
+		$action,
 	);
 }
 
 $this->append('table-heading', $this->Html->tableHeaders($header));
 $this->append('table-body', $this->Html->tableCells($rows));
+
+$this->append('paging');
+	echo $this->Html->link('<< first', array('action' => 'index')) . ' ';
+	if ($next):
+		echo $this->Html->link('next >', array('action' => 'index', $next));
+	endif;
+$this->end();

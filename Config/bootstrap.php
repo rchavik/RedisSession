@@ -23,7 +23,7 @@ if (isset($handlerConfig['userMap'])) {
 
 if (class_exists('CroogoNav')) {
 	CroogoNav::add('extensions.children.RedisSession', array(
-		'title' => __d('qc', 'Session Store'),
+		'title' => __d('redis_session', 'Login Sessions'),
 		'url' => array(
 			'plugin' => 'redis_session',
 			'controller' => 'session_stores',

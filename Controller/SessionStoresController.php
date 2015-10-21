@@ -4,21 +4,19 @@ class SessionStoresController extends AppController {
 
 	public $uses = array('RedisSession.SessionStore');
 
-	public function admin_index() {
-		$userMaps = $this->SessionStore->userMap();
+	public function admin_index($next = null) {
+		$prev = $next;
+		$result = $this->SessionStore->sessionList($next);
+		list($next, $sessionList) = $result;
 		$userSessions = array();
-		if ($userMaps) {
-			foreach ($userMaps as $userMap) {
-				$data = $this->SessionStore->sessionData($userMap);
-				$userSessions[$userMap] = $data;
-			}
+		foreach ($sessionList as $key) {
+			$userSessions[$key] = $this->SessionStore->sessionData($key);
 		}
-		$totalSessions = $this->SessionStore->total();
-		$this->set(compact('totalSessions', 'userMaps', 'userSessions'));
+		$this->set(compact('userSessions', 'next'));
 	}
 
-	public function admin_disconnect($id) {
-		$this->SessionStore->disconnect($id);
+	public function admin_disconnect($sessionId) {
+		$this->SessionStore->destroy($sessionId);
 		$this->redirect($this->referer());
 	}
 

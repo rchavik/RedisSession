@@ -27,12 +27,12 @@ class SessionStore extends AppModel {
 		}
 	}
 
-	public function userMap($userId = null) {
+	public function userMap($userId = null, $cursor = null) {
 		if ($userId) {
 			$mapKey = 'USERS:' . intval($userId);
 			return $this->_store->get($mapKey);
 		}
-		return $this->_store->keys('USERS:*');
+		return $this->_store->scan($cursor, 'USERS:*');
 	}
 
 	public function sessionData($key) {
@@ -49,8 +49,25 @@ class SessionStore extends AppModel {
 		$this->_store->delete($map);
 	}
 
+	public function destroy($sessionId) {
+		$key = 'PHPREDIS_SESSION:' . $sessionId;
+		$data = $this->sessionData($key);
+		if (isset($data['Auth']['User']['id'])) {
+			$this->_store->delete($key);
+			$map = $this->userMap($data['Auth']['User']['id']);
+			if ($key === $map) {
+				$this->_store->delete($map);
+			}
+		}
+	}
+
 	public function total() {
 		return count($this->_store->keys('PHP*'));
+	}
+
+	public function sessionList($cursor = null) {
+		$result = $this->_store->scan($cursor, 'PHP*');
+		return array($cursor, $result);
 	}
 
 }
